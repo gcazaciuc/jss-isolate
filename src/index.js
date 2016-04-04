@@ -1,57 +1,27 @@
-const reset = {
-  'border-collapse': 'separate',
-  'border-spacing': '0',
-  'caption-side': 'top',
-  'cursor': 'auto',
-  'direction': 'ltr',
-  'empty-cells': 'show',
-  'font-family': 'serif',
-  'font-size': 'medium',
-  'font-style': 'normal',
-  'font-variant': 'normal',
-  'font-weight': 'normal',
-  'font-stretch': 'normal',
-  'line-height': 'normal',
-  'hyphens': 'none',
-  'letter-spacing': 'normal',
-  'list-style': 'disc outside none',
-  'tab-size': '8',
-  'text-align': 'left',
-  'text-align-last': 'auto',
-  'text-indent': '0',
-  'text-shadow': 'none',
-  'text-transform': 'none',
-  'visibility': 'visible',
-  'white-space': 'normal',
-  'widows': 2,
-  'word-spacing': 'normal',
-}
+import reset from './reset'
 
-export default class JssIsolate {
-  constructor(jss, reRule = /^\..+/) {
-    this._reRule = reRule
-    this._sheet = jss.createStyleSheet()
-    this._rules = []
-    this._rule = null
-  }
+const reRule = /^\..+/
 
-  plugin() {
-    return (rule) => {
-      if (rule.options.sheet === this._sheet) return
-      if (rule.type !== 'regular' || !(this._reRule.test(rule.selector))) {
-        return
-      }
-      this._rules.push(
-        rule.selector.replace('.', '')
-      )
-      if (!this._rule) {
-        this._rule = this._sheet.createRule(rule.name, reset)
-      }
-      this._rule.selector = this._rules.join(',\n')
+export default function() {
+  let sheet
+  let resetRule
+  const selectors = []
+  function jssIsolate(rule) {
+    if (!sheet && rule.options.jss) {
+      sheet = rule.options.jss.createStyleSheet()
+      jssIsolate.sheet = sheet
     }
+    if (rule.options.sheet === sheet) return
+    if (rule.type !== 'regular' || !(reRule.test(rule.selector))) {
+      return
+    }
+    if (!resetRule) {
+      resetRule = sheet.createRule('reset', reset, {named: false})
+    }
+    selectors.push(rule.selector)
+    resetRule.selector = selectors.join(',\n')
+    sheet.attach()
+    sheet.deploy()
   }
-
-  sheet() {
-    return this._sheet
-  }
+  return jssIsolate
 }

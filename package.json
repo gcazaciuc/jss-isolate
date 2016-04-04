@@ -1,7 +1,7 @@
 {
   "name": "jss-isolate",
   "description": "True rules isolation through automatic inheritable properties reset.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": {
     "name": "Maksim Koretskiy",
     "email": "mr.green.tv@gmail.com"
@@ -41,7 +41,7 @@
     "eslint-plugin-react": "^3.16.1",
     "eslint-config-airbnb": "0.1.0",
     "eslint-config-jss": "0.2.0",
-    "jss": ">=3.0.0 < 4.0.0",
+    "jss": ">=3.4.0 < 4.0.0",
     "opener": "^1.4.1",
     "qunitjs": "1.15.0",
     "rimraf": "^2.4.3",

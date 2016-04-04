@@ -16,7 +16,7 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   output: {
-    library: 'JssIsolate',
+    library: 'jssIsolate',
     libraryTarget: 'umd'
   },
   plugins: plugins,

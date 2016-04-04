@@ -1,54 +1,49 @@
 'use strict'
 
-QUnit.module('jss-isolate', {})
+QUnit.module('jss-isolate', {
+  setup: function () {
+    jss.default.use(jssIsolate.default())
+  },
+  teardown: function() {
+    jss.default.sheets.registry = []
+    jss.default.plugins.registry = []
+  }
+})
 
 test('reset sheet is empty if there is nothing to reset', function () {
-  var jssInstance = jss.create()
-  var jssIsolate = new JssIsolate.default(jssInstance)
-  jssInstance.use(jssIsolate.plugin())
-  var sheet = jssInstance.createStyleSheet({}, {named: false})
-  var resetSheet = jssIsolate.sheet()
-  equal(resetSheet.toString(), '')
+  jss.default.createStyleSheet({})
+  equal(jss.default.sheets.registry[0].toString(), '')
 })
 
 test('isolate ignores atRules', function () {
-  var jssInstance = jss.create()
-  var jssIsolate = new JssIsolate.default(jssInstance)
-  jssInstance.use(jssIsolate.plugin())
-  var sheet = jssInstance.createStyleSheet({
+  var sheet = jss.default.createStyleSheet({
     '@media print': {},
     '@font-face': {
       'font-family': 'MyHelvetica',
-      src: 'local("Helvetica")'
+      src: 'local("Helvetica")',
     },
     '@keyframes id': {
       from: {top: 0},
       '30%': {top: 30},
-      '60%, 70%': {top: 80}
+      '60%, 70%': {top: 80},
     },
     '@supports ( display: flexbox )': {},
   })
-  var resetSheet = jssIsolate.sheet()
-  equal(resetSheet.toString(), '')
-    var jssIsolate = new JssIsolate.default(jss)
-  jss.plugins.registry = []
+  equal(jss.default.sheets.registry[0].toString(), '')
 })
 
 test('works fine with classes', function () {
-  var jssInstance = jss.create()
-  var jssIsolate = new JssIsolate.default(jssInstance)
-  jssInstance.use(jssIsolate.plugin())
-  var sheet = jssInstance.createStyleSheet({
-    '.link': {
-      color: 'red'
+  var sheet = jss.default.createStyleSheet({
+    'link': {
+      color: 'red',
     },
-    '.link--item': {
+    'link--item': {
       color: 'blue',
     }
   })
   var expected = '\
-'+sheet.classes['.link']+',\n\
-'+sheet.classes['.link--item']+' {\n\
+.'+sheet.classes['link']+',\n\
+.'+sheet.classes['link--item']+' {\n\
   border-collapse: separate;\n\
   border-spacing: 0;\n\
   caption-side: top;\n\
@@ -76,29 +71,24 @@ test('works fine with classes', function () {
   widows: 2;\n\
   word-spacing: normal;\n\
 }'
-  equal(jssIsolate.sheet().resetSheet.toString(), expected)
-  jss.plugins.registry = []
+  equal(jss.default.sheets.registry[0].toString(), expected)
 })
 
 test('works in multiple stylesheets', function () {
-  var jssInstance = jss.create()
-  var jssIsolate = new JssIsolate.default(jssInstance)
-  jssInstance.use(jssIsolate.plugin())
-  var sheet1 = jssInstance.createStyleSheet({
-    '.link--item': {
+  var sheet1 = jss.default.createStyleSheet({
+    'link--item': {
       color: 'blue',
-    }
-  })
-  var sheet2 = jssInstance.createStyleSheet({
-    '.link': {
-      color: 'red'
     },
   })
-  var resetSheet = jssIsolate.sheet()
+  var sheet2 = jss.default.createStyleSheet({
+    'link': {
+      color: 'red',
+    },
+  })
+  var resetSheet = jss.default.sheets.registry[0]
   var renderedReset = resetSheet.toString()
-  ok(renderedReset.indexOf(sheet1.classes['.link--item']) !==  -1)
-  ok(renderedReset.indexOf(sheet2.classes['.link']) !==  -1)
-  jss.plugins.registry = []
+  ok(renderedReset.indexOf('.' + sheet1.classes['link--item']) !==  -1)
+  ok(renderedReset.indexOf('.' + sheet2.classes['link']) !==  -1)
 })
 
 
