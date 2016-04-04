@@ -6,10 +6,9 @@ export default function() {
   let sheet
   let resetRule
   const selectors = []
-  function jssIsolate(rule) {
+  return (rule) => {
     if (!sheet && rule.options.jss) {
       sheet = rule.options.jss.createStyleSheet()
-      jssIsolate.sheet = sheet
     }
     if (rule.options.sheet === sheet) return
     if (rule.type !== 'regular' || !(reRule.test(rule.selector))) {
@@ -17,11 +16,10 @@ export default function() {
     }
     if (!resetRule) {
       resetRule = sheet.createRule('reset', reset, {named: false})
+      sheet.attach()
     }
     selectors.push(rule.selector)
     resetRule.selector = selectors.join(',\n')
-    sheet.attach()
     sheet.deploy()
   }
-  return jssIsolate
 }
