@@ -10,14 +10,12 @@ QUnit.module('jss-isolate', {
   }
 })
 
-var skip = function(){};
-
 test('reset sheet is not created if there is nothing to reset', function () {
   jss.default.createStyleSheet()
   equal(jss.default.sheets.registry.length, 1)
 })
 
-skip('isolate ignores atRules', function () {
+QUnit.skip('isolate ignores atRules', function () {
   var sheet = jss.default.createStyleSheet({
     '@media print': {},
     '@font-face': {
