@@ -12,8 +12,13 @@ export default function() {
     if (!sheet && rule.options.jss) {
       sheet = rule.options.jss.createStyleSheet({}, {linked: true})
     }
+    if (rule.options.sheet.options.isolate === false) return
     if (rule.options.sheet === sheet) return
     if (rule.type !== 'regular') return
+    if (rule.style.isolate === false) {
+      delete rule.style.isolate
+      return
+    }
     if (!resetRule) {
       resetRule = sheet.createRule('reset', reset, {named: false})
       sheet.attach()

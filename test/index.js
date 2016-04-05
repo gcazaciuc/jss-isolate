@@ -69,6 +69,46 @@ test('works in multiple stylesheets', function () {
   ok(resetRule.selector.indexOf(sheet2.classes.link) !== -1)
 })
 
+test('ignores rules if they are ignored in stylesheet options', function ( assert ) {
+  var done = assert.async()
+  var sheet1 = jss.default.createStyleSheet({
+    linkItem: {
+      color: 'blue',
+    },
+  })
+  var sheet2 = jss.default.createStyleSheet({
+    link: {
+      color: 'red',
+    },
+  }, {
+    isolate: false,
+  })
+  setTimeout(function () {
+    var resetSheet = jss.default.sheets.registry[0]
+    var resetRule = resetSheet.rules.reset
+    ok(resetRule.selector.indexOf(sheet1.classes.linkItem) !== -1)
+    ok(resetRule.selector.indexOf(sheet2.classes.link) === -1)
+    done()
+  }, 0)
+})
 
-
-
+test('ignore rules if property isolate is set to false', function( assert ) {
+  var done = assert.async()
+  var sheet = jss.default.createStyleSheet({
+    linkItem: {
+      color: 'blue',
+    },
+    link: {
+      color: 'red',
+      isolate: false,
+    },
+  })
+  setTimeout(function () {
+    var resetSheet = jss.default.sheets.registry[0]
+    var resetRule = resetSheet.rules.reset
+    ok(resetRule.selector.indexOf(sheet.classes.linkItem) !== -1)
+    ok(resetRule.selector.indexOf(sheet.classes.link) === -1)
+    ok(sheet.rules.link.style.isolate === undefined )
+    done()
+  }, 0)
+})
