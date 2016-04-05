@@ -1,7 +1,5 @@
 import reset from './reset'
 
-const reRule = /^\..+/
-
 export default function() {
   let sheet
   let resetRule
@@ -11,9 +9,6 @@ export default function() {
       sheet = rule.options.jss.createStyleSheet({}, {linked: true})
     }
     if (rule.options.sheet === sheet) return
-    if (rule.type !== 'regular' || !(reRule.test(rule.selector))) {
-      return
-    }
     if (!resetRule) {
       resetRule = sheet.createRule('reset', reset, {named: false})
       sheet.attach()
