@@ -1,4 +1,8 @@
 import reset from './reset'
+import debounce from 'lodash.debounce'
+
+const rerenderRule = debounce((rule, selectors) =>
+  rule.selector = selectors.join(',\n'))
 
 export default function() {
   let sheet
@@ -9,11 +13,12 @@ export default function() {
       sheet = rule.options.jss.createStyleSheet({}, {linked: true})
     }
     if (rule.options.sheet === sheet) return
+    if (rule.type !== 'regular') return
     if (!resetRule) {
       resetRule = sheet.createRule('reset', reset, {named: false})
       sheet.attach()
     }
     selectors.push(rule.selector)
-    resetRule.selector = selectors.join(',\n')
+    rerenderRule(resetRule, selectors)
   }
 }
