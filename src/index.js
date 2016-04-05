@@ -8,7 +8,7 @@ export default function() {
   const selectors = []
   return (rule) => {
     if (!sheet && rule.options.jss) {
-      sheet = rule.options.jss.createStyleSheet()
+      sheet = rule.options.jss.createStyleSheet({}, {linked: true})
     }
     if (rule.options.sheet === sheet) return
     if (rule.type !== 'regular' || !(reRule.test(rule.selector))) {
@@ -20,6 +20,5 @@ export default function() {
     }
     selectors.push(rule.selector)
     resetRule.selector = selectors.join(',\n')
-    sheet.deploy()
   }
 }
