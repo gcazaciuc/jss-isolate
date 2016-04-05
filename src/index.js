@@ -15,9 +15,8 @@ export default function() {
     }
     if (options.sheet.options.isolate === false) return
     if (options.sheet === sheet) return
-    if (rule.type !== 'regular' ||
-        (options.parent &&
-        options.parent.type === 'keyframe')) return
+    if (rule.type !== 'regular') return
+    if (options.parent && options.parent.type === 'keyframe') return
     if (rule.style && rule.style.isolate === false) {
       delete rule.style.isolate
       return
