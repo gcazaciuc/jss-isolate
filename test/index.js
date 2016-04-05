@@ -15,7 +15,7 @@ test('reset sheet is not created if there is nothing to reset', function () {
   equal(jss.default.sheets.registry.length, 1)
 })
 
-QUnit.skip('isolate ignores atRules', function () {
+test('isolate ignores atRules', function () {
   var sheet = jss.default.createStyleSheet({
     '@media print': {},
     '@font-face': {
