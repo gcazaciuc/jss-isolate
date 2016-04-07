@@ -30,7 +30,9 @@ export default function() {
       resetRule = sheet.createRule('reset', reset, {named: false})
       sheet.attach()
     }
-    selectors.push(rule.selector)
+    if (selectors.indexOf(rule.selector) === -1) {
+      selectors.push(rule.selector)
+    }
     setSelector(resetRule, selectors)
   }
 }

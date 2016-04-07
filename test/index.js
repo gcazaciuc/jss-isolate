@@ -119,3 +119,23 @@ test('ignore rules if property isolate is set to false', function( assert ) {
     done()
   }, 0)
 })
+
+test('dont duplicate rules', function( assert ) {
+  var done = assert.async()
+  var sheet = jss.default.createStyleSheet({
+    link: {
+      color: 'blue',
+    },
+    '@media (min-width: 320px)': {
+      link: {
+        color: 'red',
+      },
+    },
+  })
+  setTimeout(function () {
+    var resetSheet = jss.default.sheets.registry[0]
+    var resetRule = resetSheet.getRule('reset')
+    ok(resetRule.selector === '.' + sheet.classes.link)
+    done()
+  }, 0)
+})
