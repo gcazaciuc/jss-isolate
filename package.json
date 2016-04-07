@@ -51,7 +51,5 @@
   "peerDependencies": {
     "jss": ">=3.0.0 < 4.0.0"
   },
-  "dependencies": {
-    "lodash.debounce": "^4.0.4"
-  }
+  "dependencies": {}
 }

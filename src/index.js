@@ -1,5 +1,12 @@
 import reset from './reset'
-import debounce from 'lodash.debounce'
+
+const debounce = (fn) => {
+  let timeoutId
+  return (...args) => {
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => fn(...args))
+  }
+}
 
 const rerenderRule = debounce((rule, selectors) =>
   rule.selector = selectors.join(',\n'))

@@ -1,3 +1,4 @@
+/*eslint-disable*/
 'use strict'
 
 QUnit.module('jss-isolate', {
@@ -32,7 +33,8 @@ test('isolate ignores atRules', function () {
   equal(jss.default.sheets.registry[0].toString(), '')
 })
 
-test('works fine with classes', function () {
+test('works fine with classes', function (assert) {
+  var done = assert.async()
   var sheet = jss.default.createStyleSheet({
     link: {
       color: 'red',
@@ -41,16 +43,20 @@ test('works fine with classes', function () {
       color: 'blue',
     }
   })
-  var resetSheet = jss.default.sheets.registry[0]
-  var resetRule = resetSheet.rules.reset
-  var expectedClasses = '.' + sheet.classes.link + ',\n.' + sheet.classes.linkItem
-  ok(resetRule.selector.indexOf(sheet.classes.linkItem) !== -1)
-  ok(resetRule.selector.indexOf(sheet.classes.link) !== -1)
-  equal(resetRule.style['border-collapse'], 'separate')
-  equal(resetRule.style['font-family'], 'serif')
+  setTimeout(function () {
+    var resetSheet = jss.default.sheets.registry[0]
+    var resetRule = resetSheet.rules.reset
+    var expectedClasses = '.' + sheet.classes.link + ',\n.' + sheet.classes.linkItem
+    ok(resetRule.selector.indexOf(sheet.classes.linkItem) !== -1)
+    ok(resetRule.selector.indexOf(sheet.classes.link) !== -1)
+    equal(resetRule.style['border-collapse'], 'separate')
+    equal(resetRule.style['font-family'], 'serif')
+    done()
+  }, 0)
 })
 
-test('works in multiple stylesheets', function () {
+test('works in multiple stylesheets', function (assert) {
+  var done = assert.async()
   var sheet1 = jss.default.createStyleSheet({
     linkItem: {
       color: 'blue',
@@ -61,10 +67,13 @@ test('works in multiple stylesheets', function () {
       color: 'red',
     },
   })
-  var resetSheet = jss.default.sheets.registry[0]
-  var resetRule = resetSheet.rules.reset
-  ok(resetRule.selector.indexOf(sheet1.classes.linkItem) !== -1)
-  ok(resetRule.selector.indexOf(sheet2.classes.link) !== -1)
+  setTimeout(function () {
+    var resetSheet = jss.default.sheets.registry[0]
+    var resetRule = resetSheet.rules.reset
+    ok(resetRule.selector.indexOf(sheet1.classes.linkItem) !== -1)
+    ok(resetRule.selector.indexOf(sheet2.classes.link) !== -1)
+    done()
+  }, 0)
 })
 
 test('ignores rules if they are ignored in stylesheet options', function ( assert ) {
