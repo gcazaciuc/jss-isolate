@@ -30,7 +30,7 @@ test('isolate ignores atRules', function () {
     },
     '@supports ( display: flexbox )': {},
   })
-  equal(jss.default.sheets.registry[0].toString(), '')
+  equal(jss.default.sheets.registry.length, 1)
 })
 
 test('works fine with classes', function (assert) {

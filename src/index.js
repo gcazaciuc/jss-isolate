@@ -8,7 +8,7 @@ const debounce = (fn) => {
   }
 }
 
-const rerenderRule = debounce((rule, selectors) =>
+const setSelector = debounce((rule, selectors) =>
   rule.selector = selectors.join(',\n'))
 
 export default function() {
@@ -17,9 +17,6 @@ export default function() {
   const selectors = []
   return (rule) => {
     const { options } = rule
-    if (!sheet && options.jss) {
-      sheet = options.jss.createStyleSheet({}, {linked: true})
-    }
     if (options.sheet.options.isolate === false) return
     if (options.sheet === sheet) return
     if (rule.type !== 'regular') return
@@ -28,11 +25,12 @@ export default function() {
       delete rule.style.isolate
       return
     }
-    if (!resetRule) {
+    if (!sheet && options.jss) {
+      sheet = options.jss.createStyleSheet({}, {linked: true})
       resetRule = sheet.createRule('reset', reset, {named: false})
       sheet.attach()
     }
     selectors.push(rule.selector)
-    rerenderRule(resetRule, selectors)
+    setSelector(resetRule, selectors)
   }
 }
