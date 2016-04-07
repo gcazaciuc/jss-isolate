@@ -45,7 +45,7 @@ test('works fine with classes', function (assert) {
   })
   setTimeout(function () {
     var resetSheet = jss.default.sheets.registry[0]
-    var resetRule = resetSheet.rules.reset
+    var resetRule = resetSheet.getRule('reset')
     var expectedClasses = '.' + sheet.classes.link + ',\n.' + sheet.classes.linkItem
     ok(resetRule.selector.indexOf(sheet.classes.linkItem) !== -1)
     ok(resetRule.selector.indexOf(sheet.classes.link) !== -1)
@@ -69,7 +69,7 @@ test('works in multiple stylesheets', function (assert) {
   })
   setTimeout(function () {
     var resetSheet = jss.default.sheets.registry[0]
-    var resetRule = resetSheet.rules.reset
+    var resetRule = resetSheet.getRule('reset')
     ok(resetRule.selector.indexOf(sheet1.classes.linkItem) !== -1)
     ok(resetRule.selector.indexOf(sheet2.classes.link) !== -1)
     done()
@@ -92,7 +92,7 @@ test('ignores rules if they are ignored in stylesheet options', function ( asser
   })
   setTimeout(function () {
     var resetSheet = jss.default.sheets.registry[0]
-    var resetRule = resetSheet.rules.reset
+    var resetRule = resetSheet.getRule('reset')
     ok(resetRule.selector.indexOf(sheet1.classes.linkItem) !== -1)
     ok(resetRule.selector.indexOf(sheet2.classes.link) === -1)
     done()
@@ -112,7 +112,7 @@ test('ignore rules if property isolate is set to false', function( assert ) {
   })
   setTimeout(function () {
     var resetSheet = jss.default.sheets.registry[0]
-    var resetRule = resetSheet.rules.reset
+    var resetRule = resetSheet.getRule('reset')
     ok(resetRule.selector.indexOf(sheet.classes.linkItem) !== -1)
     ok(resetRule.selector.indexOf(sheet.classes.link) === -1)
     ok(sheet.rules.link.style.isolate === undefined )
