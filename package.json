@@ -25,6 +25,7 @@
     "build:lib": "babel src --out-dir lib",
     "build:max": "NODE_ENV=development webpack src/index.js dist/jss-isolate.js",
     "build:min": "NODE_ENV=production webpack src/index.js dist/jss-isolate.min.js",
+    "build:watch": "npm run build:max -- -w",
     "lint": "eslint ./src",
     "prepublish": "npm run all && git push --tags"
   },
