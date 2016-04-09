@@ -2,9 +2,12 @@
 
 ## True rules isolation through automatic inheritable properties reset.
 
-This plugin protects styles from inheritance. Your comrade in the fight with accidental complexity. Good for reusable UI development.
+There is a category of css properties named 'inheritable'. It means that these properties apply to the child nodes from parent nodes. See [this article](
+https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Getting_started/Cascading_and_inheritance) for more details.
 
-Automatically generates and attaches stylesheet with inheritable properties reset for all rules.
+Due to this reason styles in reusable UI components can be broken if all inheritable properties were not defined explicitly for each element. It can cost You extra efforts to build strong isolation in a component.
+
+This plugin protects styles from inheritance. It automatically creates a reset rule and applies it to every user's rule.
 
 [Demo](http://jsstyles.github.io/examples/index.html#plugin-jss-isolate) -
 [JSS](https://github.com/jsstyles/jss)
