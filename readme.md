@@ -6,6 +6,11 @@ This plugin protects styles from inheritance. Your comrade in the fight with acc
 
 Automatically generates and attaches stylesheet with inheritable properties reset for all rules.
 
+[Demo](http://jsstyles.github.io/examples/index.html#plugin-jss-isolate) -
+[JSS](https://github.com/jsstyles/jss)
+
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/jsstyles/jss?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Usage example
 
 ```javascript
