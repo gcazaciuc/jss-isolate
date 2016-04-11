@@ -26,8 +26,8 @@ export default function() {
       return
     }
     if (!sheet && options.jss) {
-      sheet = options.jss.createStyleSheet({}, {linked: true})
-      resetRule = sheet.createRule('reset', reset, {named: false})
+      sheet = options.jss.createStyleSheet({}, {link: true})
+      resetRule = sheet.createRule('reset', reset)
       sheet.attach()
     }
     if (selectors.indexOf(rule.selector) === -1) {
