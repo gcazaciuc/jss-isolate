@@ -49,19 +49,19 @@ There are 2 ways to avoid isolation if you want to.
 
 1. For a rule
 
-```javascript
-export default {
-  button: {
-    isolate: false
+  ```javascript
+  export default {
+    button: {
+      isolate: false
+    }
   }
-}
-```
+  ```
 
 2. For a style sheet
 
-```javascript
-jss.createStyleSheet(styles, {isolate: false})
-```
+  ```javascript
+  jss.createStyleSheet(styles, {isolate: false})
+  ```
 
 ## Additional reset.
 
