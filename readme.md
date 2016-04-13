@@ -75,6 +75,10 @@ jss.use(jssIsolate({
 }))
 ```
 
+## Inheritable properties.
+
+A full list of currently resetted properties is [here](./src/reset.js).
+
 ## Run tests
 
 ```bash
