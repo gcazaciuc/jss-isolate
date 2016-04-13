@@ -49,8 +49,8 @@ test('works fine with classes', function (assert) {
     var expectedClasses = '.' + sheet.classes.link + ',\n.' + sheet.classes.linkItem
     ok(resetRule.selector.indexOf(sheet.classes.linkItem) !== -1)
     ok(resetRule.selector.indexOf(sheet.classes.link) !== -1)
-    equal(resetRule.style['border-collapse'], 'separate')
-    equal(resetRule.style['font-family'], 'serif')
+    equal(resetRule.prop('border-collapse'), 'separate')
+    equal(resetRule.prop('font-family'), 'serif')
     done()
   }, 0)
 })
@@ -115,7 +115,7 @@ test('ignore rules if property isolate is set to false', function( assert ) {
     var resetRule = resetSheet.getRule('reset')
     ok(resetRule.selector.indexOf(sheet.classes.linkItem) !== -1)
     ok(resetRule.selector.indexOf(sheet.classes.link) === -1)
-    ok(sheet.rules.link.style.isolate === undefined )
+    ok(sheet.getRule('link').prop('isolate') === undefined)
     done()
   }, 0)
 })
@@ -136,6 +136,26 @@ test('dont duplicate rules', function( assert ) {
     var resetSheet = jss.default.sheets.registry[0]
     var resetRule = resetSheet.getRule('reset')
     ok(resetRule.selector === '.' + sheet.classes.link)
+    done()
+  }, 0)
+})
+
+test('option "reset"', function( assert ) {
+  var done = assert.async()
+  jss.default.use(jssIsolate.default({
+    reset: {
+      width: '1px'
+    }
+  }))
+  var sheet = jss.default.createStyleSheet({
+    a: {
+      color: 'blue'
+    }
+  })
+  setTimeout(function () {
+    var resetSheet = jss.default.sheets.registry[1]
+    var resetRule = resetSheet.getRule('reset')
+    equal(resetRule.prop('width'), '1px', 'additional reset property added')
     done()
   }, 0)
 })
